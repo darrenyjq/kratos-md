@@ -21,8 +21,12 @@ var (
 	HttpAccessWorkerPool *ants.PoolWithFunc
 )
 
-func InitKafka(brokerList []string, logger log.Logger) {
-	NewKafkaProducer(brokerList, "aaa")
+func InitKafka(brokerList []string, topic string, logger log.Logger) {
+	log.Info(brokerList, topic)
+	sarama.Logger = NewKafkaLogger(log.NewHelper(logger))
+	// sarama.Logger = sarama.DebugLogger
+	NewKafkaProducer(brokerList, topic)
+	log.Info(brokerList, topic)
 	HttpAccessWorkerPool, _ = ants.NewPoolWithFunc(60, func(i interface{}) {
 		acc, is := i.(*Access)
 		if is {
@@ -34,6 +38,8 @@ func InitKafka(brokerList []string, logger log.Logger) {
 
 func NewKafkaProducer(brokers []string, topic string) {
 	config := sarama.NewConfig()
+	config.ClientID = "pixiu"
+
 	config.Producer.RequiredAcks = sarama.WaitForLocal     // Only wait for the leader to ack
 	config.Producer.Compression = sarama.CompressionSnappy // Compress messages
 	config.Producer.Flush.Frequency = 3 * time.Second      // Flush batches every 3s
@@ -70,6 +76,8 @@ func HttpAccess(access *Access) {
 		fmt.Println("message abandoned, http access pool free=0 running=", HttpAccessWorkerPool.Running())
 		return
 	}
+	log.Info(access)
+	log.Info(333)
 	HttpAccessWorkerPool.Invoke(access)
 }
 

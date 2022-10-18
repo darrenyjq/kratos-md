@@ -4,46 +4,46 @@ import (
 	"net/http"
 	"strings"
 	"time"
-
-	"kratos-middleware/logging/usertrack"
+	// "kratos-md/logging/usertrack"
 )
 
-type UserTracker interface {
-	setFeature(feature usertrack.Feature)
-	getFeature() (feature usertrack.Feature)
-	SetUserTrackInfo(userID int64, username string, userNodeID int64)
-}
-
-var _ UserTracker = &UserTrack{}
-
-type UserTrack struct {
-	Track usertrack.Feature
-}
-
-func (this *UserTrack) setFeature(feature usertrack.Feature) {
-	this.Track = feature
-}
-
-func (this *UserTrack) getFeature() usertrack.Feature {
-	return this.Track
-}
-
-func (this *UserTrack) SetUserTrackInfo(userID int64, username string, userNodeID int64) {
-	this.Track.UserID = userID
-	this.Track.Username = username
-	this.Track.UserNodeID = userNodeID
-}
-
-// type bufferWriter struct {
-//	tango.ResponseWriter
-//	content []byte
+//
+// type UserTracker interface {
+// 	setFeature(feature usertrack.Feature)
+// 	getFeature() (feature usertrack.Feature)
+// 	SetUserTrackInfo(userID int64, username string, userNodeID int64)
 // }
 //
-// func (b *bufferWriter) Write(bs []byte) (int, error) {
-//	b.content = append(b.content, bs...)
-//	return b.ResponseWriter.Write(bs)
+// var _ UserTracker = &UserTrack{}
+//
+// type UserTrack struct {
+// 	Track usertrack.Feature
 // }
-
+//
+// func (this *UserTrack) setFeature(feature usertrack.Feature) {
+// 	this.Track = feature
+// }
+//
+// func (this *UserTrack) getFeature() usertrack.Feature {
+// 	return this.Track
+// }
+//
+// func (this *UserTrack) SetUserTrackInfo(userID int64, username string, userNodeID int64) {
+// 	this.Track.UserID = userID
+// 	this.Track.Username = username
+// 	this.Track.UserNodeID = userNodeID
+// }
+//
+// // type bufferWriter struct {
+// //	tango.ResponseWriter
+// //	content []byte
+// // }
+// //
+// // func (b *bufferWriter) Write(bs []byte) (int, error) {
+// //	b.content = append(b.content, bs...)
+// //	return b.ResponseWriter.Write(bs)
+// // }
+//
 type RequestLogger interface {
 	Log(access *Access)
 }
@@ -74,7 +74,7 @@ type Access struct {
 	Latency   string `json:"latency"`
 	LatencyNs int64  `json:"latency_ns"`
 
-	UserTrackFeature usertrack.Feature `json:"user_track_feature"`
+	// UserTrackFeature usertrack.Feature `json:"user_track_feature"`
 }
 
 func toMapString(bean http.Header) (ret map[string]string) {
