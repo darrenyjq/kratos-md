@@ -2,13 +2,11 @@ package kafka
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/confluentinc/confluent-kafka-go/kafka"
-	"github.com/darrenyjq/kratos-md/tracing/opentracing-contrib/kafkatracer"
+	"github.com/darrenyjq/kratos-md/broker/xkafka"
 	"github.com/darrenyjq/kratos-md/utils/async"
-	"github.com/opentracing/opentracing-go"
-	opentracinglog "github.com/opentracing/opentracing-go/log"
+	"github.com/go-kratos/kratos/v2/log"
 )
 
 type Client interface {
@@ -30,19 +28,8 @@ type Client interface {
 
 type EventHandlerFunc func(event kafka.Event)
 
-type Config struct {
-	Topic            string                       `json:"topic"`
-	BootstrapServers string                       `json:"bootstrap.servers"`
-	SecurityProtocol string                       `json:"security.protocol"`
-	SslCaLocation    string                       `json:"ssl.ca.location"`
-	SaslMechanism    string                       `json:"sasl.mechanism"`
-	SaslUsername     string                       `json:"sasl.username"`
-	SaslPassword     string                       `json:"sasl.password"`
-	ConfigMap        map[string]kafka.ConfigValue `json:"config.map"`
-}
-
-func NewClient(cfg Config, opts ...Option) (Client, error) {
-	fmt.Print("init kafka producer, it may take a few seconds to init the connection\n")
+func NewClient(cfg xkafka.Config, opts ...Option) (Client, error) {
+	log.Info("init kafka producer, it may take a few seconds to init the connection\n")
 	// common arguments
 	var kafkaConf = &kafka.ConfigMap{
 		"api.version.request": "true",
@@ -77,7 +64,7 @@ func NewClient(cfg Config, opts ...Option) (Client, error) {
 	}
 	cli := &client{conf: kafkaConf}
 	cli.opts = Options{
-		Topic: cfg.Topic,
+		Topic: cfg.Topics[0],
 	}
 	for _, o := range opts {
 		o(&cli.opts)
@@ -108,7 +95,7 @@ func (cli *client) initProducer() error {
 		}
 	})
 	cli.producer = producer
-	fmt.Print("init kafka producer success\n")
+	log.Info("init kafka producer success\n")
 	return nil
 }
 
@@ -167,19 +154,19 @@ func (cli *client) PublishWithEvent(ctx context.Context, value []byte, key []byt
 }
 
 func (cli *client) PublishRaw(ctx context.Context, msg *kafka.Message, event chan kafka.Event) error {
-	var span opentracing.Span
-	if parentSpan := opentracing.SpanFromContext(ctx); parentSpan != nil {
-		span, _ = opentracing.StartSpanFromContext(ctx, "kafka publish")
-		span.SetTag("component", "kafka")
-		defer span.Finish()
-		if err := kafkatracer.Inject(span, &msg.Headers); err != nil {
-			return err
-		}
-	}
+	// var span opentracing.Span
+	// if parentSpan := opentracing.SpanFromContext(ctx); parentSpan != nil {
+	// 	span, _ = opentracing.StartSpanFromContext(ctx, "kafka publish")
+	// 	span.SetTag("component", "kafka")
+	// 	defer span.Finish()
+	// 	if err := kafkatracer.Inject(span, &msg.Headers); err != nil {
+	// 		return err
+	// 	}
+	// }
 	err := cli.producer.Produce(msg, event)
-	if err != nil && span != nil {
-		span.LogFields(opentracinglog.Object("err", err))
-	}
+	// if err != nil && span != nil {
+	// 	span.LogFields(opentracinglog.Object("err", err))
+	// }
 	return err
 }
 

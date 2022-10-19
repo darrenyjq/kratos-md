@@ -1,7 +1,7 @@
 package xamqp
 
 import (
-	"codeup.aliyun.com/qimao/go-contrib/prototype/tracing/opentracing-contrib/amqptracer"
+	"github.com/darrenyjq/kratos-md/tracing/opentracing-contrib/amqptracer"
 	"github.com/opentracing/opentracing-go"
 	amqp "github.com/rabbitmq/amqp091-go"
 )

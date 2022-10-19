@@ -3,8 +3,8 @@ package kafkatracer
 import (
 	"testing"
 
-	"codeup.aliyun.com/qimao/go-contrib/prototype/log"
 	"github.com/confluentinc/confluent-kafka-go/kafka"
+	"github.com/go-kratos/kratos/v2/log"
 	"github.com/opentracing/opentracing-go"
 )
 

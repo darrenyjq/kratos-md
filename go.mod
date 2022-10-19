@@ -15,16 +15,11 @@ require (
 )
 
 require (
-	codeup.aliyun.com/qimao/go-contrib/prototype v0.9.15
 	github.com/confluentinc/confluent-kafka-go v1.9.2
 	github.com/getsentry/sentry-go v0.14.0
-	github.com/gin-gonic/gin v1.8.1
-	github.com/nacos-group/nacos-sdk-go v1.1.2
 	github.com/opentracing/opentracing-go v1.2.0
 	github.com/pkg/errors v0.9.1
-	github.com/prometheus/client_golang v1.13.0
 	github.com/rabbitmq/amqp091-go v1.5.0
-	github.com/segmentio/ksuid v1.0.4
 	github.com/uber/jaeger-client-go v2.30.0+incompatible
 	golang.org/x/sync v0.0.0-20220923202941-7f9b1623fab7
 )

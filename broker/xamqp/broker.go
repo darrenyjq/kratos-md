@@ -16,9 +16,9 @@ import (
 	"sync/atomic"
 	"time"
 
-	"codeup.aliyun.com/qimao/go-contrib/prototype/broker"
-	"codeup.aliyun.com/qimao/go-contrib/prototype/log"
-	"codeup.aliyun.com/qimao/go-contrib/prototype/utils/async"
+	"github.com/darrenyjq/kratos-md/broker"
+	"github.com/darrenyjq/kratos-md/utils/async"
+	"github.com/go-kratos/kratos/v2/log"
 	"github.com/pkg/errors"
 	amqp "github.com/rabbitmq/amqp091-go"
 )

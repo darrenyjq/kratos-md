@@ -3,10 +3,10 @@ package xkafka
 import (
 	"context"
 
-	"codeup.aliyun.com/qimao/go-contrib/prototype/broker"
-	"codeup.aliyun.com/qimao/go-contrib/prototype/log"
-	"codeup.aliyun.com/qimao/go-contrib/prototype/utils/async"
 	"github.com/confluentinc/confluent-kafka-go/kafka"
+	"github.com/darrenyjq/kratos-md/broker"
+	"github.com/darrenyjq/kratos-md/utils/async"
+	"github.com/go-kratos/kratos/v2/log"
 )
 
 type HandlerFunc func(message *kafka.Message)
@@ -25,7 +25,7 @@ type Config struct {
 
 func NewBroker(cfg Config, opts ...Option) broker.Broker {
 	log.Info("init kafka consumer, it may take a few seconds to init the connection")
-	//common arguments
+	// common arguments
 	var kafkaConf = &kafka.ConfigMap{
 		"api.version.request":       "true",
 		"auto.offset.reset":         "latest",

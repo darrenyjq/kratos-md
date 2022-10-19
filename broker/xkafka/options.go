@@ -1,8 +1,8 @@
 package xkafka
 
 import (
-	"codeup.aliyun.com/qimao/go-contrib/prototype/tracing/opentracing-contrib/kafkatracer"
 	"github.com/confluentinc/confluent-kafka-go/kafka"
+	"github.com/darrenyjq/kratos-md/tracing/opentracing-contrib/kafkatracer"
 	"github.com/opentracing/opentracing-go"
 )
 

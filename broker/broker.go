@@ -3,8 +3,8 @@ package broker
 import (
 	"context"
 
-	_ "codeup.aliyun.com/qimao/go-contrib/prototype/log"     //初始化日志
-	_ "codeup.aliyun.com/qimao/go-contrib/prototype/tracing" //初始化分布式追踪
+	_ "github.com/darrenyjq/kratos-md/tracing" // 初始化分布式追踪
+	_ "github.com/go-kratos/kratos/v2/log"     // 初始化日志
 )
 
 type Broker interface {
