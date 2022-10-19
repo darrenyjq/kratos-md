@@ -1,10 +1,12 @@
 package utils
 
 import (
+	"encoding/json"
 	"go/token"
 	"strings"
 	"unicode"
 	"unicode/utf8"
+	"unsafe"
 )
 
 func UcFirst(str string) string {
@@ -47,4 +49,10 @@ func GoSanitized(s string) string {
 		return "_" + s
 	}
 	return s
+}
+
+// ToJson 序列化为json
+func ToJson(data interface{}) string {
+	b, _ := json.Marshal(data)
+	return *(*string)(unsafe.Pointer(&b))
 }

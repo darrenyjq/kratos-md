@@ -2,8 +2,6 @@ package xkafka
 
 import (
 	"github.com/confluentinc/confluent-kafka-go/kafka"
-	"github.com/darrenyjq/kratos-md/tracing/opentracing-contrib/kafkatracer"
-	"github.com/opentracing/opentracing-go"
 )
 
 type Options struct {
@@ -18,12 +16,12 @@ type Option func(opts *Options)
 func Handler(handler HandlerFunc) Option {
 	return func(opts *Options) {
 		opts.Handler = func(msg *kafka.Message) {
-			spCtx, _ := kafkatracer.Extract(msg.Headers)
-			sp := opentracing.StartSpan(
-				"ConsumeMessage",
-				opentracing.FollowsFrom(spCtx),
-			)
-			defer sp.Finish()
+			// spCtx, _ := kafkatracer.Extract(msg.Headers)
+			// sp := opentracing.StartSpan(
+			// 	"ConsumeMessage",
+			// 	opentracing.FollowsFrom(spCtx),
+			// )
+			// defer sp.Finish()
 			handler(msg)
 		}
 	}

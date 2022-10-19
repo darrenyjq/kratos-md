@@ -1,8 +1,6 @@
 package xamqp
 
 import (
-	"github.com/darrenyjq/kratos-md/tracing/opentracing-contrib/amqptracer"
-	"github.com/opentracing/opentracing-go"
 	amqp "github.com/rabbitmq/amqp091-go"
 )
 
@@ -20,12 +18,12 @@ type Option func(opts *Options)
 func Handler(handler HandlerFunc) Option {
 	return func(opts *Options) {
 		opts.Handler = func(d amqp.Delivery) error {
-			spCtx, _ := amqptracer.Extract(&d.Headers)
-			sp := opentracing.StartSpan(
-				"ConsumeMessage",
-				opentracing.FollowsFrom(spCtx),
-			)
-			defer sp.Finish()
+			// spCtx, _ := amqptracer.Extract(&d.Headers)
+			// sp := opentracing.StartSpan(
+			// 	"ConsumeMessage",
+			// 	opentracing.FollowsFrom(spCtx),
+			// )
+			// defer sp.Finish()
 			return handler(d)
 		}
 	}
